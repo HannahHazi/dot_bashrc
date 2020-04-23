@@ -181,3 +181,6 @@ PROMPT_COMMAND=my_prompt_command
 
 # Get rid of annoying 'Bash isn't the default shell on Mac' message
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# This is required by Docker-compose of ccg_pipelines to run locally at the moment
+export CCG_PIPELINES_WORKING_DIR=~/bioinformatics_data
