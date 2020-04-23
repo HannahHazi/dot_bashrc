@@ -123,6 +123,7 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
   source /usr/local/bin/virtualenvwrapper.sh
 fi
 
+
 # This is the scary bit: wrap everything that does prompt display
 # into a single function that I determine
 function my_prompt_command()
@@ -170,7 +171,12 @@ function my_prompt_command()
             branch="(`git describe --all --contains --abbrev=4 HEAD 2> /dev/null || echo HEAD`)"
         fi
         # update the status message we want to display on prompt
-        git_whats_up+="{$branch}$ "
+        if [[ $(git status --porcelain) ]];
+            then is_dirty="!!";
+            else is_dirty="≡";
+            fi
+
+        git_whats_up+="{$branch}$is_dirty$ "
     fi
 
     # now add this result to the prompt
