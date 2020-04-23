@@ -157,30 +157,20 @@ function my_prompt_command()
     
     #now add this result to the prompt
     PS1=$venv$PS1
-    
-    # reset value of storage container to prevent it from displaying when outside repo...
-    git_whats_up=""
-    # check if inside git repo
-    local git_status="`git status -unormal 2>&1`"
-    if ! [[ "$git_status" =~ (N|n)ot\ a\ git\ repo ]]; then
-        # parse the output of git status
-        if [[ "$git_status" =~ On\ branch\ ([^[:space:]]+) ]]; then
-            branch=${BASH_REMATCH[1]}
-        else
-            # Detached HEAD. (branch=HEAD is a faster alternative.)
-            branch="(`git describe --all --contains --abbrev=4 HEAD 2> /dev/null || echo HEAD`)"
-        fi
-        # update the status message we want to display on prompt
-        if [[ $(git status --porcelain) ]];
-            then is_dirty="!!";
-            else is_dirty="≡";
-            fi
 
-        git_whats_up+="{$branch}$is_dirty$ "
+    # Use posh-git-sh function written by @lyze to display git status nicely
+    # I should really write a custom version at some point
+    # https://github.com/lyze/posh-git-sh
+    if [ -s ~/Code/posh-git-sh/git-prompt.sh ]; then
+        source ~/Code/posh-git-sh/git-prompt.sh
+        local git_whats_up=""
+        git_whats_up=$(__posh_git_echo)
+
+        # now add this result to the prompt
+        PS1+="$git_whats_up";
     fi
 
-    # now add this result to the prompt
-    PS1+="$git_whats_up"
+    PS1+=" $ "
 
 }
 
