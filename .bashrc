@@ -179,3 +179,6 @@ function my_prompt_command()
 }
 
 PROMPT_COMMAND=my_prompt_command
+
+# Get rid of annoying 'Bash isn't the default shell on Mac' message
+export BASH_SILENCE_DEPRECATION_WARNING=1
