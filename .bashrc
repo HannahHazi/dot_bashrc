@@ -161,7 +161,7 @@ function my_prompt_command()
     git_whats_up=""
     # check if inside git repo
     local git_status="`git status -unormal 2>&1`"
-    if ! [[ "$git_status" =~ Not\ a\ git\ repo ]]; then
+    if ! [[ "$git_status" =~ (N|n)ot\ a\ git\ repo ]]; then
         # parse the output of git status
         if [[ "$git_status" =~ On\ branch\ ([^[:space:]]+) ]]; then
             branch=${BASH_REMATCH[1]}
