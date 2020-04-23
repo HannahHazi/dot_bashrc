@@ -158,19 +158,22 @@ function my_prompt_command()
     #now add this result to the prompt
     PS1=$venv$PS1
 
-    # Use posh-git-sh function written by @lyze to display git status nicely
-    # I should really write a custom version at some point
-    # https://github.com/lyze/posh-git-sh
-    if [ -s ~/Code/posh-git-sh/git-prompt.sh ]; then
+    # check if inside git repo
+    local git_status="`git status -unormal 2>&1`"
+
+    if ! [[ "$git_status" =~ (N|n)ot\ a\ git\ repo ]] && [ -s ~/Code/posh-git-sh/git-prompt.sh ]; then
+        # Use posh-git-sh function written by @lyze to display git status nicely
+        # I should really write a custom version at some point
+        # https://github.com/lyze/posh-git-sh
+
         source ~/Code/posh-git-sh/git-prompt.sh
         local git_whats_up=""
+
         git_whats_up=$(__posh_git_echo)
 
         # now add this result to the prompt
-        PS1+="$git_whats_up";
+        PS1+="$git_whats_up $ ";
     fi
-
-    PS1+=" $ "
 
 }
 
